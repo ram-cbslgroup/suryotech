@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuryoTech - Transform Unstructured Data into Intelligence</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#2563eb',
+                            gold: '#f59e0b',
+                            darkBg: '#090d16',
+                            darkCard: '#111827',
+                            lightBg: '#f8fafc',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Subtle Grid Pattern */
+        .bg-grid-light {
+            background-image: radial-gradient(#cbd5e1 0.75px, transparent 0.75px);
+            background-size: 32px 32px;
+            opacity: 0.4;
+        }
+
+        .bg-grid-dark {
+            background-image: radial-gradient(#334155 0.75px, transparent 0.75px);
+            background-size: 32px 32px;
+            opacity: 0.3;
+        }
+
+        /* Soft Subtle Glow Effects */
+        .glow-accent {
+            filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.25));
+        }
+
+        .glow-gold {
+            filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.3));
+        }
+
+        /* Nav link hover indicator */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(90deg, #2563eb, #f59e0b);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Ripple effect animation on node hover */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .animate-pulse-ring {
+            animation: pulse-ring 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-brand-lightBg text-slate-800 dark:bg-brand-darkBg dark:text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden relative selection:bg-blue-500 selection:text-white transition-colors duration-500">
+
+    <div id="bgGrid" class="absolute inset-0 bg-grid-light dark:bg-grid-dark pointer-events-none z-0 transition-all duration-500"></div>
+    <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-500/5 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] left-[-5%] w-[450px] h-[450px] bg-amber-500/5 dark:bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+    <header class="relative z-20 container mx-auto px-6 py-6 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+            <div class="relative w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-amber-500 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
+                <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] flex items-center justify-center p-1 overflow-hidden">
+                    <img src="Suryologo.png" alt="SuryoTech Logo" class="w-full h-full object-contain filter drop-shadow group-hover:scale-110 transition-transform duration-300" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e293b/f59e0b?text=ST';">
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-blue-800 to-amber-600 dark:from-white dark:via-slate-200 dark:to-amber-400 bg-clip-text text-transparent">
+                    Suryo<span class="text-amber-500">Tech</span>
+                </span>
+                <span class="text-[10px] tracking-wider uppercase text-slate-400 dark:text-slate-500 font-semibold -mt-1">Knowledge Core</span>
+            </div>
+        </a>
+
+        <!-- Desktop Navigation Menu -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
+            <a href="#home" class="nav-link text-blue-600 dark:text-blue-400">Home</a>
+            <a href="#sectors" class="nav-link hover:text-slate-900 dark:hover:text-white transition-colors">Sectors</a>
+            <a href="#capabilities" class="nav-link hover:text-slate-900 dark:hover:text-white transition-colors">Capabilities</a>
+            <a href="#about" class="nav-link hover:text-slate-900 dark:hover:text-white transition-colors">About Us</a>
+            <a href="#insights" class="nav-link hover:text-slate-900 dark:hover:text-white transition-colors">Insights</a>
+        </nav>
+
+        <!-- Right Side Actions (Theme Toggle & CTA) -->
+        <div class="flex items-center gap-4">
+            <!-- Theme Toggle Button -->
+            <button id="themeToggle" aria-label="Toggle Theme" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-600 dark:text-amber-400 hover:scale-105 active:scale-95 transition-all shadow-sm">
+                <svg id="sunIcon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <svg id="moonIcon" class="w-5 h-5 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+
+            <!-- Contact CTA Button -->
+            <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 hover:from-blue-700 hover:to-amber-600 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-amber-500/25 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
+                <span>Contact Us</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobileMenuBtn" aria-label="Open Navigation Menu" class="md:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobileMenu" class="fixed inset-x-0 top-[80px] z-30 p-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 hidden flex-col gap-4 shadow-xl transition-all md:hidden">
+        <a href="#home" class="py-2 text-lg font-medium text-blue-600 dark:text-blue-400">Home</a>
+        <a href="#sectors" class="py-2 text-lg font-medium text-slate-700 dark:text-slate-300">Sectors</a>
+        <a href="#capabilities" class="py-2 text-lg font-medium text-slate-700 dark:text-slate-300">Capabilities</a>
+        <a href="#about" class="py-2 text-lg font-medium text-slate-700 dark:text-slate-300">About Us</a>
+        <a href="#insights" class="py-2 text-lg font-medium text-slate-700 dark:text-slate-300">Insights</a>
+        <a href="#contact" class="mt-2 w-full py-3 rounded-full text-center text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-amber-500">
+            Contact Us
+        </a>
+    </div>
+
+    <main class="relative z-10 container mx-auto px-6 py-8 my-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- LEFT COLUMN: Content & CTA -->
+        <div class="lg:col-span-6 space-y-8 text-left">
+            
+            <!-- Announcement Pill -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 shadow-sm">
+                <span class="flex h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-ping"></span>
+                <span>SuryoTech</span>
+                <i class="fa-solid fa-sparkles text-amber-500 text-xs ml-1"></i>
+            </div>
+
+            <!-- Main Title -->
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                Your organization holds the answer. <br>
+                <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 dark:from-blue-400 dark:via-indigo-300 dark:to-amber-400 bg-clip-text text-transparent">
+                    We bring it to light.
+                </span>
+            </h1>
+
+            <!-- Description -->
+            <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-2xl">
+                Courts, hospitals, universities, and financial hubs store decades of unstructured records, rulings, and telemetry. <strong class="text-slate-800 dark:text-slate-100 font-semibold">SuryoTech</strong> structures this chaotic data into a neural intelligence layer—allowing your team to query, extract insights, and trace every answer back to its exact origin.
+            </p>
+
+            <!-- Interactive Sector Badges -->
+            <div class="space-y-3">
+                <span class="text-xs uppercase tracking-wider font-bold text-slate-400 dark:text-slate-500">Core Industries Supported</span>
+                <div class="flex flex-wrap gap-2.5">
+                    <button class="sector-tag px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70 text-slate-700 dark:text-slate-200 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-scale-balanced text-amber-500"></i> Legal & Judiciary
+                    </button>
+                    <button class="sector-tag px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70 text-slate-700 dark:text-slate-200 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap text-blue-500"></i> Education
+                    </button>
+                    <button class="sector-tag px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70 text-slate-700 dark:text-slate-200 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-heart-pulse text-red-500"></i> Healthcare
+                    </button>
+                    <button class="sector-tag px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70 text-slate-700 dark:text-slate-200 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-vault text-emerald-500"></i> Banking & Finance
+                    </button>
+                    <button class="sector-tag px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70 text-slate-700 dark:text-slate-200 hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-industry text-purple-500"></i> Manufacturing
+                    </button>
+                </div>
+            </div>
+
+            <!-- CTA Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                <a href="#explore" class="px-7 py-3.5 rounded-xl font-bold text-sm text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/35 hover:-translate-y-0.5 transition-all text-center flex items-center justify-center gap-2">
+                    <span>Explore Platform</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+                
+                <button id="demoBtn" class="px-7 py-3.5 rounded-xl font-bold text-sm text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/60 shadow-sm hover:shadow transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play text-amber-500 text-xs"></i>
+                    <span>Watch Interactive Demo</span>
+                </button>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="pt-6 border-t border-slate-200 dark:border-slate-800/80 grid grid-cols-3 gap-4 text-center sm:text-left">
+                <div>
+                    <div class="text-2xl font-extrabold text-slate-900 dark:text-white">99.4%</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Citation Accuracy</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-extrabold text-slate-900 dark:text-white">10x+</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Faster Research</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-extrabold text-slate-900 dark:text-white">Zero</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">Data Leakage</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Interactive Neural Knowledge Tree Canvas Container -->
+        <div class="lg:col-span-6 relative w-full aspect-square max-w-[550px] mx-auto flex items-center justify-center">
+            <canvas id="treeCanvas" class="w-full h-full relative z-10 cursor-pointer"></canvas>
+            <div id="nodeBadgesContainer" class="absolute inset-0 pointer-events-none z-20"></div>
+            <div class="absolute bottom-2 right-2 z-20 px-3 py-1 rounded-full bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 backdrop-blur-sm text-[11px] text-slate-500 dark:text-slate-400 shadow-sm pointer-events-none flex items-center gap-1.5">
+                <i class="fa-solid fa-hand-pointer text-amber-500 animate-bounce"></i> Move mouse to interact
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="relative z-10 mt-16 border-t border-slate-200 dark:border-slate-800/80 bg-white/60 dark:bg-slate-950/80 backdrop-blur-md pt-16 pb-8 transition-colors duration-500">
+        <div class="container mx-auto px-6">
+            
+            <!-- Newsletter Banner Card -->
+            <div class="relative overflow-hidden mb-16 p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-600 text-white shadow-2xl shadow-blue-500/20">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-7 space-y-2">
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md text-amber-200 uppercase tracking-wider">
+                            Stay Ahead with AI
+                        </span>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                            Receive Neural Knowledge Architecture Updates
+                        </h3>
+                        <p class="text-sm text-blue-100 max-w-xl">
+                            Join over 15,000 enterprise leaders, legal researchers, and health tech innovators receiving our monthly deep dive.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-5">
+                        <form onsubmit="event.preventDefault();" class="flex flex-col sm:flex-row gap-3">
+                            <input type="email" placeholder="Enter your work email" class="px-4 py-3.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/30 text-white placeholder-blue-200 text-sm focus:outline-none focus:ring-2 focus:ring-white/50 w-full">
+                            <button type="submit" class="px-6 py-3.5 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-all shadow-lg shrink-0 flex items-center justify-center gap-2">
+                                <span>Subscribe</span>
+                                <i class="fa-solid fa-paper-plane text-xs text-amber-400"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Columns -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-200 dark:border-slate-800/80">
+                
+                <!-- Column 1: Brand Info -->
+                <div class="lg:col-span-2 space-y-4">
+                    <a href="#" class="flex items-center gap-3 group">
+                        <div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-amber-500 p-0.5 shadow-md shadow-blue-500/20">
+                            <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] flex items-center justify-center p-1 overflow-hidden">
+                                <img src="Suryologo.png" alt="SuryoTech Logo" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e293b/f59e0b?text=ST';">
+                            </div>
+                        </div>
+                        <span class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                            Suryo<span class="text-amber-500">Tech</span>
+                        </span>
+                    </a>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">
+                        Transforming Unstructured Data into Actionable Intelligence. Built for accuracy, security, and precision reasoning across high-stakes domains.
+                    </p>
+
+                    <!-- Live System Status Badge -->
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span>All Knowledge Engine Systems Operational</span>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="#" class="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500/50 transition-all flex items-center justify-center">
+                            <i class="fa-brands fa-linkedin-in text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500/50 transition-all flex items-center justify-center">
+                            <i class="fa-brands fa-x-twitter text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500/50 transition-all flex items-center justify-center">
+                            <i class="fa-brands fa-github text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500/50 transition-all flex items-center justify-center">
+                            <i class="fa-brands fa-discord text-sm"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500/50 transition-all flex items-center justify-center">
+                            <i class="fa-brands fa-youtube text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Navigation Links -->
+                <div class="space-y-4">
+                    <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Navigation</h4>
+                    <ul class="space-y-2.5 text-sm text-slate-600 dark:text-slate-400">
+                        <li><a href="#home" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home Platform</a></li>
+                        <li><a href="#sectors" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Industry Sectors</a></li>
+                        <li><a href="#capabilities" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Neural Capabilities</a></li>
+                        <li><a href="#engine" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Reasoning Architecture</a></li>
+                        <li><a href="#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Company Story</a></li>
+                        <li><a href="#insights" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Research Insights</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Industry Solutions -->
+                <div class="space-y-4">
+                    <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Solutions</h4>
+                    <ul class="space-y-2.5 text-sm text-slate-600 dark:text-slate-400">
+                        <li><a href="#" class="hover:text-amber-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-scale-balanced text-xs text-amber-500"></i> Legal & Judiciary</a></li>
+                        <li><a href="#" class="hover:text-blue-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-xs text-blue-500"></i> Academic & Research</a></li>
+                        <li><a href="#" class="hover:text-rose-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-heart-pulse text-xs text-rose-500"></i> Clinical Healthcare</a></li>
+                        <li><a href="#" class="hover:text-emerald-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-vault text-xs text-emerald-500"></i> Banking & FinTech</a></li>
+                        <li><a href="#" class="hover:text-purple-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-industry text-xs text-purple-500"></i> Industrial Enterprise</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Security & Compliance -->
+                <div class="space-y-4">
+                    <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Trust & Security</h4>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        SOC2 Type II Certified, HIPAA Compliant, and GDPR Ready with Zero-Retention Data Enclaves.
+                    </p>
+                    <div class="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-blue-500"></i> 256-Bit On-Prem Encryption
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-certificate text-amber-500"></i> Verifiable Audit Trails
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-server text-emerald-500"></i> Air-Gapped Deployment
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright & Legal Links -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-4">
+                <div>© 2026 SuryoTech Technologies Inc. All rights reserved.</div>
+                <div class="flex flex-wrap gap-6 font-medium">
+                    <a href="#" class="hover:text-slate-900 dark:hover:text-slate-200 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-slate-900 dark:hover:text-slate-200 transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-slate-900 dark:hover:text-slate-200 transition-colors">Security Architecture</a>
+                    <a href="#" class="hover:text-slate-900 dark:hover:text-slate-200 transition-colors">Cookie Settings</a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        /* -------------------------------------------------------------
+           1. THEME TOGGLE LOGIC
+        ------------------------------------------------------------- */
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Check stored theme preference or system default
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+            updateCanvasTheme();
+        });
+
+        /* -------------------------------------------------------------
+           2. MOBILE MENU TOGGLE
+        ------------------------------------------------------------- */
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
+
+        /* -------------------------------------------------------------
+           3. CANVAS ANIMATION: KNOWLEDGE TREE / NEURAL GRAPH
+        ------------------------------------------------------------- */
+        const canvas = document.getElementById('treeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let mouse = { x: -1000, y: -1000, targetX: -1000, targetY: -1000 };
+
+        // Colors according to light / dark theme
+        let colors = {
+            trunk: '#cbd5e1',
+            branch: 'rgba(203, 213, 225, 0.35)',
+            accentBlue: '#2563eb',
+            accentGold: '#d97706',
+            particle: '#2563eb',
+            glow: 'rgba(37, 99, 235, 0.08)'
+        };
+
+        function updateCanvasTheme() {
+            const isDark = htmlElement.classList.contains('dark');
+            if (isDark) {
+                colors = {
+                    trunk: '#334155',
+                    branch: 'rgba(71, 85, 105, 0.25)',
+                    accentBlue: '#3b82f6',
+                    accentGold: '#fbbf24',
+                    particle: '#60a5fa',
+                    glow: 'rgba(59, 130, 246, 0.12)'
+                };
+            } else {
+                colors = {
+                    trunk: '#cbd5e1',
+                    branch: 'rgba(203, 213, 225, 0.35)',
+                    accentBlue: '#2563eb',
+                    accentGold: '#d97706',
+                    particle: '#2563eb',
+                    glow: 'rgba(37, 99, 235, 0.08)'
+                };
+            }
+        }
+        updateCanvasTheme();
+
+        // Custom cubic curve fallback helper
+        if (!CanvasRenderingContext2D.prototype.cubicCurveTo) {
+            CanvasRenderingContext2D.prototype.cubicCurveTo = function(cp1x, cp1y, cp2x, cp2y, x, y) {
+                this.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+            };
+        }
+
+        // Resize Canvas dynamically
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return;
+            
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            width = canvas.width;
+            height = canvas.height;
+            ctx.scale(dpr, dpr);
+            generateTree();
+        }
+
+        let branches = [];
+        let particles = [];
+        let sectorNodes = [];
+
+        // Sector Icons to render on top of key nodes
+        const sectorIcons = [
+            { icon: 'fa-scale-balanced', color: 'text-amber-500', name: 'Legal', bg: 'bg-amber-500/10' },
+            { icon: 'fa-graduation-cap', color: 'text-blue-500', name: 'Education', bg: 'bg-blue-500/10' },
+            { icon: 'fa-heart-pulse', color: 'text-rose-500', name: 'Healthcare', bg: 'bg-rose-500/10' },
+            { icon: 'fa-vault', color: 'text-emerald-500', name: 'Finance', bg: 'bg-emerald-500/10' },
+            { icon: 'fa-industry', color: 'text-purple-500', name: 'Industry', bg: 'bg-purple-500/10' }
+        ];
+
+        function generateTree() {
+            branches = [];
+            particles = [];
+            sectorNodes = [];
+
+            const dpr = window.devicePixelRatio || 1;
+            const cssWidth = canvas.width / dpr;
+            const cssHeight = canvas.height / dpr;
+
+            const rootX = cssWidth / 2;
+            const rootY = cssHeight * 0.92;
+
+            // Generate Trunk & Branch structure
+            const mainBranches = [
+                { endX: cssWidth * 0.22, endY: cssHeight * 0.22, cp1x: rootX - 20, cp1y: cssHeight * 0.6, cp2x: cssWidth * 0.2, cp2y: cssHeight * 0.45, sectorIdx: 0 },
+                { endX: cssWidth * 0.38, endY: cssHeight * 0.18, cp1x: rootX - 10, cp1y: cssHeight * 0.55, cp2x: cssWidth * 0.3, cp2y: cssHeight * 0.35, sectorIdx: 1 },
+                { endX: cssWidth * 0.50, endY: cssHeight * 0.12, cp1x: rootX, cp1y: cssHeight * 0.5, cp2x: cssWidth * 0.5, cp2y: cssHeight * 0.25, sectorIdx: 2 },
+                { endX: cssWidth * 0.64, endY: cssHeight * 0.20, cp1x: rootX + 10, cp1y: cssHeight * 0.55, cp2x: cssWidth * 0.6, cp2y: cssHeight * 0.35, sectorIdx: 3 },
+                { endX: cssWidth * 0.80, endY: cssHeight * 0.28, cp1x: rootX + 20, cp1y: cssHeight * 0.6, cp2x: cssWidth * 0.8, cp2y: cssHeight * 0.45, sectorIdx: 4 }
+            ];
+
+            mainBranches.forEach((mb, idx) => {
+                const branch = {
+                    startX: rootX,
+                    startY: rootY,
+                    cp1x: mb.cp1x,
+                    cp1y: mb.cp1y,
+                    cp2x: mb.cp2x,
+                    cp2y: mb.cp2y,
+                    endX: mb.endX,
+                    endY: mb.endY,
+                    subBranches: []
+                };
+
+                // Minor sub-branches
+                for (let i = 0; i < 3; i++) {
+                    const t = 0.3 + i * 0.25;
+                    const bx = Math.pow(1-t, 3)*rootX + 3*Math.pow(1-t, 2)*t*mb.cp1x + 3*(1-t)*Math.pow(t, 2)*mb.cp2x + Math.pow(t, 3)*mb.endX;
+                    const by = Math.pow(1-t, 3)*rootY + 3*Math.pow(1-t, 2)*t*mb.cp1y + 3*(1-t)*Math.pow(t, 2)*mb.cp2y + Math.pow(t, 3)*mb.endY;
+
+                    const angle = (idx % 2 === 0 ? -1 : 1) * (0.4 + Math.random() * 0.5);
+                    const subLen = 30 + Math.random() * 25;
+                    
+                    branch.subBranches.push({
+                        startX: bx,
+                        startY: by,
+                        endX: bx + Math.cos(angle) * subLen,
+                        endY: by - Math.sin(angle) * subLen
+                    });
+                }
+
+                branches.push(branch);
+
+                sectorNodes.push({
+                    x: mb.endX,
+                    y: mb.endY,
+                    sector: sectorIcons[idx % sectorIcons.length]
+                });
+            });
+
+            // Particles floating along branches
+            for (let i = 0; i < 16; i++) {
+                particles.push(createParticle());
+            }
+
+            renderOverlayBadges(cssWidth, cssHeight);
+        }
+
+        function createParticle() {
+            const branchIdx = Math.floor(Math.random() * branches.length);
+            return {
+                branchIdx: branchIdx,
+                t: Math.random(),
+                speed: 0.002 + Math.random() * 0.003,
+                size: 1.5 + Math.random() * 1.5,
+                color: Math.random() > 0.5 ? colors.accentBlue : colors.accentGold
+            };
+        }
+
+        function renderOverlayBadges(cssWidth, cssHeight) {
+            const container = document.getElementById('nodeBadgesContainer');
+            container.innerHTML = '';
+
+            sectorNodes.forEach((node) => {
+                const badge = document.createElement('div');
+                badge.className = `absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-auto transition-transform duration-300 hover:scale-125 cursor-pointer flex flex-col items-center group`;
+                badge.style.left = `${(node.x / cssWidth) * 100}%`;
+                badge.style.top = `${(node.y / cssHeight) * 100}%`;
+
+                badge.innerHTML = `
+                    <div class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg flex items-center justify-center ${node.sector.bg} group-hover:border-blue-500 transition-colors">
+                        <i class="fa-solid ${node.sector.icon} ${node.sector.color} text-base"></i>
+                    </div>
+                    <span class="mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 shadow-sm opacity-90 group-hover:opacity-100">
+                        ${node.sector.name}
+                    </span>
+                `;
+
+                container.appendChild(badge);
+            });
+        }
+
+        function drawCubicBezier(startX, startY, cp1x, cp1y, cp2x, cp2y, endX, endY, mouseDist) {
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            
+            let shiftX = 0;
+            let shiftY = 0;
+            if (mouseDist < 120) {
+                const factor = (120 - mouseDist) / 120;
+                shiftX = (mouse.x - cp1x) * factor * 0.15;
+                shiftY = (mouse.y - cp1y) * factor * 0.15;
+            }
+
+            ctx.cubicCurveTo(cp1x + shiftX, cp1y + shiftY, cp2x + shiftX, cp2y + shiftY, endX, endY);
+            ctx.stroke();
+        }
+
+        function animate() {
+            mouse.x += (mouse.targetX - mouse.x) * 0.1;
+            mouse.y += (mouse.targetY - mouse.y) * 0.1;
+
+            const dpr = window.devicePixelRatio || 1;
+            const cssWidth = canvas.width / dpr;
+            const cssHeight = canvas.height / dpr;
+
+            ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+            // 1. Draw Root Base Glow
+            const rootX = cssWidth / 2;
+            const rootY = cssHeight * 0.92;
+
+            const rootGlow = ctx.createRadialGradient(rootX, rootY, 0, rootX, rootY, 80);
+            rootGlow.addColorStop(0, colors.glow);
+            rootGlow.addColorStop(1, 'transparent');
+            ctx.fillStyle = rootGlow;
+            ctx.beginPath();
+            ctx.arc(rootX, rootY, 80, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 2. Draw Branches
+            ctx.lineCap = 'round';
+
+            branches.forEach((branch) => {
+                const dist = Math.hypot(mouse.x - branch.endX, mouse.y - branch.endY);
+                
+                if (dist < 100) {
+                    ctx.strokeStyle = colors.accentBlue;
+                    ctx.lineWidth = 3.5;
+                } else {
+                    ctx.strokeStyle = colors.branch;
+                    ctx.lineWidth = 2.5;
+                }
+
+                drawCubicBezier(
+                    branch.startX, branch.startY,
+                    branch.cp1x, branch.cp1y,
+                    branch.cp2x, branch.cp2y,
+                    branch.endX, branch.endY,
+                    dist
+                );
+
+                // Draw sub-branches
+                ctx.lineWidth = 1.2;
+                branch.subBranches.forEach(sb => {
+                    ctx.beginPath();
+                    ctx.moveTo(sb.startX, sb.startY);
+                    ctx.lineTo(sb.endX, sb.endY);
+                    ctx.stroke();
+
+                    ctx.fillStyle = colors.accentGold;
+                    ctx.beginPath();
+                    ctx.arc(sb.endX, sb.endY, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            });
+
+            // 3. Draw Moving Particles
+            particles.forEach((p) => {
+                if (branches.length === 0) return;
+                p.t += p.speed;
+                if (p.t >= 1) {
+                    p.t = 0;
+                    p.branchIdx = Math.floor(Math.random() * branches.length);
+                }
+
+                const b = branches[p.branchIdx];
+                if (!b) return;
+                const t = p.t;
+
+                const px = Math.pow(1-t, 3)*b.startX + 3*Math.pow(1-t, 2)*t*b.cp1x + 3*(1-t)*Math.pow(t, 2)*b.cp2x + Math.pow(t, 3)*b.endX;
+                const py = Math.pow(1-t, 3)*b.startY + 3*Math.pow(1-t, 2)*t*b.cp1y + 3*(1-t)*Math.pow(t, 2)*b.cp2y + Math.pow(t, 3)*b.endY;
+
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = 0.7;
+                ctx.beginPath();
+                ctx.arc(px, py, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Track Mouse Move over Canvas
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.targetX = e.clientX - rect.left;
+            mouse.targetY = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            mouse.targetX = -1000;
+            mouse.targetY = -1000;
+        });
+
+        // Window Load & Resize Handler
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = function() {
+            resizeCanvas();
+            animate();
+        };
+    </script>
+</body>
+</html>
